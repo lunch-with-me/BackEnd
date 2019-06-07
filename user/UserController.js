@@ -54,5 +54,18 @@ router.put('/:id', /* VerifyToken, */ function (req, res) {
     });
 });
 
+// get a list of ninjas from the db
+router.get('/location', function(req, res, next){
+    /* Ninja.find({}).then(function(ninjas){
+        res.send(ninjas);
+    }); */
+    User.geoNear(
+        {type: 'Point', coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]},
+        {maxDistance: 1000000, spherical: true}
+    ).then(function(users){
+        res.send(users);
+    }).catch(next);
+});
+
 
 module.exports = router;

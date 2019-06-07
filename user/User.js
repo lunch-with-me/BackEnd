@@ -1,4 +1,17 @@
 var mongoose = require('mongoose');  
+
+const GeoSchema = new Schema({
+  type: {
+      type: String,
+      default: 'Point'
+  },
+  coordinates: {
+      type: [Number],
+      index: '2dsphere'
+  }
+});
+
+
 var UserSchema = new mongoose.Schema({  
   name: String,
   email: String,
@@ -12,7 +25,15 @@ var UserSchema = new mongoose.Schema({
   telephone:String,
   profession: String,
   image: String,
-  creation_dt:Date
+  creation_dt:Date,
+  rank: {
+    type: String
+  },
+  available: {
+      type: Boolean,
+      default: false
+  },
+  geometry: GeoSchema
 });
 mongoose.model('User', UserSchema);
 
