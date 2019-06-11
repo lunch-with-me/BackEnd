@@ -7,6 +7,19 @@ var VerifyToken = require(__root + 'auth/VerifyToken');
 router.use(bodyParser.urlencoded({ extended: true }));
 var User = require('./User');
 
+// get a list of ninjas from the db
+router.get('/location', function(req, res, next){
+    /* Ninja.find({}).then(function(ninjas){
+        res.send(ninjas);
+    }); */
+    User.geoNear(
+        {type: 'Point', coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]},
+        {maxDistance: 1000000, spherical: true}
+    ).then(function(users){
+        res.status(200).send(users);
+    }).catch(next);
+});
+
 // CREATES A NEW USER
 router.post('/', function (req, res) {
     User.create({
@@ -52,19 +65,6 @@ router.put('/:id', /* VerifyToken, */ function (req, res) {
         if (err) return res.status(500).send("There was a problem updating the user.");
         res.status(200).send(user);
     });
-});
-
-// get a list of ninjas from the db
-router.get('/location', function(req, res, next){
-    /* Ninja.find({}).then(function(ninjas){
-        res.send(ninjas);
-    }); */
-    User.geoNear(
-        {type: 'Point', coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)]},
-        {maxDistance: 1000000, spherical: true}
-    ).then(function(users){
-        res.send(users);
-    }).catch(next);
 });
 
 

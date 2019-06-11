@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');  
 
-const GeoSchema = new Schema({
+const GeoSchema = new mongoose.Schema({
   type: {
       type: String,
       default: 'Point'
@@ -29,6 +29,8 @@ var UserSchema = new mongoose.Schema({
   rank: {
     type: String
   },
+  friends:[],
+  handle: String,
   available: {
       type: Boolean,
       default: false
