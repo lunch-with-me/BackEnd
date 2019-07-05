@@ -13,7 +13,7 @@ const GeoSchema = new mongoose.Schema({
 
 
 var UserSchema = new mongoose.Schema({  
-  name: String,
+  //name: String,
   email: String,
   password: String,  
   role: String,
@@ -29,6 +29,10 @@ var UserSchema = new mongoose.Schema({
   rank: {
     type: String
   },
+  active: {
+    type: Boolean,
+    default: false
+},
   friends:[],
   handle: String,
   available: {
